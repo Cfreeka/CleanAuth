@@ -7,9 +7,9 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.GetPasswordOption
-import androidx.credentials.PasswordCredential
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
+import com.example.clean.BuildConfig
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -20,13 +20,14 @@ class GoogleAuthClient(
     private val context: Context
 ) {
 
+    private val webClient = BuildConfig.WEB_CLIENT
     private val auth = FirebaseAuth.getInstance()
     private val credentialManager = CredentialManager.create(context)
 
     suspend fun signInWithCredentialManager(): SignUpResult {
         return try {
             val googleOption = GetGoogleIdOption.Builder()
-                .setServerClientId("95035975663-mbnjvmmt22bd7q24bct8rvmr8hlqte7c.apps.googleusercontent.com")
+                .setServerClientId(webClient)
                 .setFilterByAuthorizedAccounts(false)
                 .setAutoSelectEnabled(true)
                 .build()
